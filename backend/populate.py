@@ -39,6 +39,7 @@ def populate_collect_items():
         obj = CollectItem.objects.create(name=item['name'])
         obj.image = image
         obj.save()
+    print('Deu bom :)')
 
 if __name__ == '__main__':
     populate_collect_items()

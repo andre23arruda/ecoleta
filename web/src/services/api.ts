@@ -1,8 +1,9 @@
-// Altere para o endereço da sua API
-const baseUrl = 'http://192.168.0.20:8000/api/omnistack9/'
-// const baseUrl = 'http://127.0.0.1:8000/api/omnistack9/'
+// Altere para o seu ipv4
+const ipv4 = '192.168.0.20'
 
-function postApi(route, formData, auth='') {
+const baseUrl = `http://${ ipv4 }:8000/api/nlw1/`
+
+async function postApi(route: String, formData: FormData, auth='') {
     return fetch(
         baseUrl + route,
         {
@@ -19,7 +20,7 @@ function postApi(route, formData, auth='') {
     .then(response => response.json())
 }
 
-function postFormDataApi(route, data, auth='') {
+async function postFormDataApi(route: String, data: any, auth='') {
 
     const formData = new FormData()
     for (var prop in data) {
@@ -41,7 +42,7 @@ function postFormDataApi(route, data, auth='') {
 }
 
 
-function getApi(route, auth='') {
+function getApi(route: String, auth='') {
     return fetch(
         baseUrl + route,
         {
@@ -54,7 +55,7 @@ function getApi(route, auth='') {
 }
 
 
-function deleteApi(route, auth='') {
+async function deleteApi(route: String, auth='') {
     return fetch(
         baseUrl + route,
         {
@@ -69,7 +70,7 @@ function deleteApi(route, auth='') {
 }
 
 
-function putApi(route, formData, auth='') {
+async function putApi(route: String, formData: FormData, auth='') {
     return fetch(
         baseUrl + route,
         {

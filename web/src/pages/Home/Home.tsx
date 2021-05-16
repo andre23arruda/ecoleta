@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FiLogIn } from 'react-icons/fi'
 import logoImg from '../../assets/logo.svg'
 import { Link, useHistory } from 'react-router-dom'
 
-
+import { title } from '../../utils'
 import './Home.css'
 
 function Home() {
+
+    useEffect(() => title(document, 'Home'), [])
 
   	return (
         <div id="page-home">
@@ -17,11 +19,11 @@ function Home() {
 
                 <main>
                     <h1>
-                        Seu marketplace de coleta de resíduos.
+                        Seu marketplace <br /> de coleta de resíduos.
                     </h1>
 
                     <p>Ajudamos pessoas a encontrarem pontos de coleta de forma eficiente.</p>
-                    <Link to='/'>
+                    <Link to='/create-point'>
                         <span>
                             <FiLogIn />
                         </span>

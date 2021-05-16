@@ -111,5 +111,10 @@ REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.QueryParameterVersioning', # versionamento
 }
 
+# CORS
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+
 # locale
 LOCALE_PATHS = [ BASE_DIR, 'locale' ]
