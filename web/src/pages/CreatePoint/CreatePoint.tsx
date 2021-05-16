@@ -16,11 +16,25 @@ interface CollectItem {
 	name: string
 }
 
+interface Uf {
+	id: number
+	sigla: string
+}
+
+interface City {
+	id: number
+	nome: string
+}
+
 function CreatePoint() {
 
     useEffect(() => title(document, 'Criar ponto de coleta'), [])
 
     const [collectItems, setCollectItems] = useState<CollectItem[]>([])
+    const [ufList, setUfList] = useState<Uf[]>([])
+    const [currentUf, setCurrentUf] = useState<string>('MS')
+    const [cityList, setCityList] = useState<City[]>([])
+
     async function loadItems() {
         const response = await getApi(`items/`)
 		setCollectItems(response)
@@ -28,6 +42,28 @@ function CreatePoint() {
     useEffect(() => {
         loadItems()
     }, [])
+
+    async function loadUfList() {
+        const urlUfApi = 'https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome'
+        const response = await getApi(urlUfApi, '', false)
+		setUfList(response)
+        console.log(response)
+	}
+    useEffect(() => {
+        loadUfList()
+    }, [])
+
+
+    async function handleUfChange(uf: string){
+        setCurrentUf(uf)
+        const urlCityApi = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${ uf }/municipios`
+        const response = await getApi(urlCityApi, '', false)
+        setCityList(response)
+    }
+    useEffect(() => {
+        handleUfChange(currentUf)
+    }, [])
+
 
   	return (
         <div id="page-create-point">
@@ -92,13 +128,22 @@ function CreatePoint() {
                         <div className="field-group">
                             <div className="field">
                                 <label htmlFor="uf">Estado (UF)</label>
-                                <input type="text" name="uf" id="uf" />
+                                <select value={ currentUf } name="uf" id="uf" onChange={ event => handleUfChange(event.target.value) }>
+                                    { ufList.map(uf => (
+                                        <option key={ uf.id } value={ uf.sigla }>{ uf.sigla }</option>
+                                    ))}
+                                </select>
                             </div>
 
                             <div className="field">
                                 <label htmlFor="city">Cidade</label>
-                                <input type="text" name="city" id="city" />
+                                <select name="city" id="city">
+                                    { cityList.map(city => (
+                                        <option key={ city.id } value={ city.nome }>{ city.nome }</option>
+                                    ))}
+                                </select>
                             </div>
+
                         </div>
                     </fieldset>
 

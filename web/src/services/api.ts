@@ -3,7 +3,7 @@ const ipv4 = '192.168.0.20'
 
 const baseUrl = `http://${ ipv4 }:8000/api/nlw1/`
 
-async function postApi(route: String, formData: FormData, auth='') {
+async function postApi(route: string, formData: FormData, auth='') {
     return fetch(
         baseUrl + route,
         {
@@ -20,7 +20,7 @@ async function postApi(route: String, formData: FormData, auth='') {
     .then(response => response.json())
 }
 
-async function postFormDataApi(route: String, data: any, auth='') {
+async function postFormDataApi(route: string, data: any, auth='') {
 
     const formData = new FormData()
     for (var prop in data) {
@@ -42,9 +42,10 @@ async function postFormDataApi(route: String, data: any, auth='') {
 }
 
 
-function getApi(route: String, auth='') {
+async function getApi(route: string, auth='', base=true) {
+    const url =  base ? baseUrl + route : route
     return fetch(
-        baseUrl + route,
+        url,
         {
             headers: new Headers({
                 Authorization: auth,
@@ -55,7 +56,7 @@ function getApi(route: String, auth='') {
 }
 
 
-async function deleteApi(route: String, auth='') {
+async function deleteApi(route: string, auth='') {
     return fetch(
         baseUrl + route,
         {
@@ -70,7 +71,7 @@ async function deleteApi(route: String, auth='') {
 }
 
 
-async function putApi(route: String, formData: FormData, auth='') {
+async function putApi(route: string, formData: FormData, auth='') {
     return fetch(
         baseUrl + route,
         {
