@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FiArrowLeft } from 'react-icons/fi'
+import { FiArrowLeft, FiCheckCircle } from 'react-icons/fi'
 import { Link, useHistory } from 'react-router-dom'
 
 import { Map , TileLayer, Marker } from 'react-leaflet'
@@ -8,6 +8,7 @@ import { LeafletMouseEvent } from 'leaflet'
 import logoImg from '../../assets/logo.svg'
 import { getApi, postFormDataApi } from '../../services/api'
 import { title } from '../../utils'
+import { CSSTransition } from 'react-transition-group'
 
 
 import './CreatePoint.css'
@@ -31,6 +32,8 @@ interface City {
 
 function CreatePoint() {
 
+    const history = useHistory()
+
     useEffect(() => title(document, 'Criar ponto de coleta'), [])
 
     const [name, setName] = useState<string>('')
@@ -38,17 +41,26 @@ function CreatePoint() {
     const [whatsapp, setWhatsapp] = useState<string>('')
     const [collectItems, setCollectItems] = useState<CollectItem[]>([])
     const [ufList, setUfList] = useState<Uf[]>([])
-    const [currentUf, setCurrentUf] = useState<string>('MS')
+    const [currentUf, setCurrentUf] = useState<string>('')
     const [cityList, setCityList] = useState<City[]>([])
     const [currentCity, setCurrentCity] = useState<string>('')
-    const [position, setPosition] = useState<[number, number]>([-19.0049858,-57.605919])
+    const [position, setPosition] = useState<[number, number]>([0, 0])
+    const [selectedItems, setselectedItems] = useState<number[]>([])
 
+    const [popupTrigger, setPopupTrigger] = useState<boolean>(false)
+
+    function getLocation() {
+        navigator.geolocation.getCurrentPosition(position => {
+            setPosition([position.coords.latitude, position.coords.longitude])
+        })
+    }
 
     async function loadItems() {
         const response = await getApi(`items/`)
 		setCollectItems(response)
 	}
     useEffect(() => {
+        getLocation()
         loadItems()
     }, [])
 
@@ -56,12 +68,10 @@ function CreatePoint() {
         const urlUfApi = 'https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome'
         const response = await getApi(urlUfApi, '', false)
 		setUfList(response)
-        console.log(response)
 	}
     useEffect(() => {
         loadUfList()
     }, [])
-
 
     async function handleUfChange(uf: string){
         setCurrentUf(uf)
@@ -69,14 +79,10 @@ function CreatePoint() {
         const response = await getApi(urlCityApi, '', false)
         setCityList(response)
     }
-    useEffect(() => {
-        handleUfChange(currentUf)
-    }, [])
 
     async function handleCityChange(city: string){
         setCurrentCity(city)
     }
-
     async function handleName(name: string){
         setName(name)
     }
@@ -93,9 +99,18 @@ function CreatePoint() {
         setPosition([latitude, longitude])
     }
 
+    function handleSelectItem(colletctItem_id: number) {
+        if (selectedItems.includes(colletctItem_id)) {
+            setselectedItems(selectedItems.filter(item => item !== colletctItem_id))
+        } else {
+            setselectedItems(selectedItems.concat([colletctItem_id]))
+        }
+    }
+
     async function handleSubmit(event: any){
         event.preventDefault()
         const data = {
+            image: null,
             name,
             email,
             whatsapp,
@@ -103,20 +118,33 @@ function CreatePoint() {
             longitude: position[1],
             city: currentCity,
             uf: currentUf,
-            items: [7,8]
+            items: selectedItems
+        }
+
+        const response = await postFormDataApi('places/', data, '')
+        if (response.id) {
+            setPopupTrigger(true)
+            setTimeout(() => {
+                history.push('/')
+            }, 2000)
         }
     }
 
 
+
+
+
   	return (
+
         <div id="page-create-point">
+
             <div className="content">
                 <header>
                     <img src={ logoImg } alt="Ecoleta"/>
 
                     <Link to='/'>
                         <FiArrowLeft />
-                        Voltar para home
+                        Voltar
                     </Link>
                 </header>
 
@@ -148,7 +176,6 @@ function CreatePoint() {
                         </div>
                     </fieldset>
 
-
                     <fieldset>
                         <legend>
                             <h2>Dados</h2>
@@ -172,6 +199,7 @@ function CreatePoint() {
                             <div className="field">
                                 <label htmlFor="uf">Estado (UF)</label>
                                 <select value={ currentUf } name="uf" id="uf" onChange={ event => handleUfChange(event.target.value) }>
+                                    <option value='0'>-----------</option>
                                     { ufList.map(uf => (
                                         <option key={ uf.id } value={ uf.sigla }>{ uf.sigla }</option>
                                     ))}
@@ -181,7 +209,7 @@ function CreatePoint() {
                             <div className="field">
                                 <label htmlFor="city">Cidade</label>
                                 <select value={ currentCity } name="city" id="city" onChange={ event => handleCityChange(event.target.value) }>
-                                    { cityList.map(city => (
+                                    { currentUf !== '' &&  cityList.map(city => (
                                         <option key={ city.id } value={ city.nome }>{ city.nome }</option>
                                     ))}
                                 </select>
@@ -198,7 +226,11 @@ function CreatePoint() {
 
                         <ul className="items-grid">
                             { collectItems.map(colletctItem => (
-                                <li key={ colletctItem.id }>
+                                <li
+                                    key={ colletctItem.id }
+                                    onClick={ () => handleSelectItem(colletctItem.id) }
+                                    className={ selectedItems.includes(colletctItem.id) ? 'selected' : '' }
+                                >
                                     <img src={ colletctItem.image } alt="" />
                                     <span>{ colletctItem.name }</span>
                                 </li>
@@ -209,10 +241,31 @@ function CreatePoint() {
 
                     <button>Cadastrar ponto de coleta</button>
 
-
                 </form>
 
             </div>
+
+            {/* Mensagem de cadastro */}
+            <CSSTransition
+                in={ popupTrigger }
+                timeout={ 400 }
+                classNames="alert"
+                unmountOnExit
+                onEnter={() => {}}
+                onExited={() => {}}
+            >
+                <div className="popup">
+                    <div className="popup-inner">
+
+                        <FiCheckCircle fontSize={ 38 } color="#34CB79"/>
+
+                        <h1>
+                            Cadastro realizado com sucesso
+                        </h1>
+
+                    </div>
+                </div>
+            </CSSTransition>
 
         </div>
   	)

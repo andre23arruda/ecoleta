@@ -25,7 +25,7 @@ async function postFormDataApi(route: string, data: any, auth='') {
     const formData = new FormData()
     for (var prop in data) {
         formData.append(prop, data[prop])
-      }
+    }
 
     return fetch(
         baseUrl + route,

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { FiLogIn } from 'react-icons/fi'
 import logoImg from '../../assets/logo.svg'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { title } from '../../utils'
 import './Home.css'
