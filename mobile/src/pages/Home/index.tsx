@@ -4,7 +4,8 @@ import {
 	TouchableOpacity, TextInput, ImageBackground
 } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
-import { FiArrowRight } from 'react-icons/fi'
+
+import { Feather } from '@expo/vector-icons'
 
 import { postApi } from '../../services/api'
 import { showAlert } from '../../utils'
@@ -12,6 +13,7 @@ import { showAlert } from '../../utils'
 import styles from './styles'
 import logoImg from '../../assets/logo.png'
 import backgroundImg from '../../assets/home-background.png'
+import { RectButton } from 'react-native-gesture-handler'
 
 function Home() {
 
@@ -35,6 +37,9 @@ function Home() {
                     Ajudamos pessoas a encontrarem pontos de coleta de forma eficiente.
                 </Text>
 
+            </View>
+
+            <View style={ styles.footer }>
                 <TextInput
                     style={ styles.input }
                     placeholder="Selecione a cidade"
@@ -49,14 +54,18 @@ function Home() {
                 >
                 </TextInput>
 
-                <TouchableOpacity
+                <RectButton
                     style={ styles.button }
                     onPress={ () => {} }
-                >
-                    <Text style={ styles.buttonText }>Entrar</Text>
-                </TouchableOpacity>
+                    >
+                    <View style={ styles.buttonIcon }>
+                        <Feather name="arrow-right" size={ 22 }/>
+                    </View>
 
+                    <Text style={ styles.buttonText }>Entrar</Text>
+                </RectButton>
             </View>
+
 
         </ImageBackground>
   	)
