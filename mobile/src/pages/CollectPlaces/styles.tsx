@@ -3,25 +3,40 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 32,
+    paddingHorizontal: 20,
     paddingTop: 25,
   },
 
-  title: {
-    fontSize: 20,
-    fontFamily: 'Ubuntu_700Bold',
-    marginTop: 24,
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 15,
   },
 
-  description: {
+  headerButton: {
+    width: '10%',
+  },
+
+  headerTitle: {
+    width: '90%',
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    marginLeft: 20,
+  },
+
+  headerTitleStrong: {
+    fontSize: 20,
+    fontFamily: 'Ubuntu_700Bold',
+  },
+
+  headerTitleText: {
     color: '#6C6C80',
-    fontSize: 16,
-    marginTop: 4,
     fontFamily: 'Roboto_400Regular',
   },
 
   mapContainer: {
-    flex: 1,
+    // flex: 1,
+    height: '70%',
     width: '100%',
     borderRadius: 10,
     overflow: 'hidden',

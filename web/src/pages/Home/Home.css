@@ -51,6 +51,7 @@
   overflow: hidden;
 
   margin-top: 40px;
+  transition: 0.2s;
 }
 
 #page-home .content main a span {
@@ -81,6 +82,7 @@
   background: #2FB86E;
   cursor: pointer;
 }
+
 
 @media(max-width: 900px) {
   #page-home .content {

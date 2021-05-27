@@ -19,6 +19,10 @@ function Home() {
 
     const navigation = useNavigation()
 
+    function navigateToCollectPlaces() {
+        navigation.navigate('CollectPlaces')
+    }
+
   	return (
         <ImageBackground
             style={ styles.container }
@@ -56,10 +60,10 @@ function Home() {
 
                 <RectButton
                     style={ styles.button }
-                    onPress={ () => {} }
+                    onPress={ navigateToCollectPlaces }
                     >
                     <View style={ styles.buttonIcon }>
-                        <Feather name="arrow-right" size={ 22 }/>
+                        <Feather name="arrow-right" size={ 22 } color="#FFF"/>
                     </View>
 
                     <Text style={ styles.buttonText }>Entrar</Text>

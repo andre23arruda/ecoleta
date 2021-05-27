@@ -23,6 +23,7 @@ function Home() {
                     </h1>
 
                     <p>Ajudamos pessoas a encontrarem pontos de coleta de forma eficiente.</p>
+
                     <Link to='/create-point'>
                         <span>
                             <FiLogIn />
@@ -33,6 +34,7 @@ function Home() {
                         </strong>
 
                     </Link>
+
                 </main>
 
             </div>

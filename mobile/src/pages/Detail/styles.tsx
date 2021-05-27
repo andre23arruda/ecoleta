@@ -7,6 +7,33 @@ export default StyleSheet.create({
     paddingTop: 20,
   },
 
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 15,
+  },
+
+  headerButton: {
+    width: '10%',
+  },
+
+  headerTitle: {
+    width: '90%',
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    marginLeft: 20,
+  },
+
+  headerTitleStrong: {
+    fontSize: 20,
+    fontFamily: 'Ubuntu_700Bold',
+  },
+
+  headerTitleText: {
+    color: '#6C6C80',
+    fontFamily: 'Roboto_400Regular',
+  },
+
   pointImage: {
     width: '100%',
     height: 120,

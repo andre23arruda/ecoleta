@@ -1,7 +1,7 @@
-// Altere para o seu ipv4
-const ipv4 = '192.168.0.20'
+// Altere para sua ROTA_API
+const ROTA_API = '192.168.0.20'
 
-const baseUrl = `http://${ ipv4 }:8000/api/nlw1/`
+const baseUrl = `http://${ ROTA_API }:8000/api/nlw1/`
 
 async function postApi(route: string, formData: FormData, auth='') {
     return fetch(
