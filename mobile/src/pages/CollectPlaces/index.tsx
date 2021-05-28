@@ -17,7 +17,7 @@ import logoImg from '../../assets/logo.png'
 import backgroundImg from '../../assets/home-background.png'
 import { RectButton } from 'react-native-gesture-handler'
 
-import MapView from 'react-native-maps'
+import MapView, { Marker } from 'react-native-maps'
 import { SvgUri } from 'react-native-svg'
 
 function CollectPlaces() {
@@ -26,6 +26,10 @@ function CollectPlaces() {
 
     function navigateToHome() {
         navigation.goBack()
+    }
+
+    function handleNavigateToDetail() {
+        navigation.navigate('Detail')
     }
 
   	return (
@@ -59,7 +63,38 @@ function CollectPlaces() {
             </View>
 
             <View style={ styles.mapContainer }>
-                <MapView style={ styles.map } />
+                <MapView
+                    style={ styles.map }
+                    initialRegion={{
+                        latitude: -19.0078964,
+                        longitude: -57.6074291,
+                        latitudeDelta: 0.014,
+                        longitudeDelta: 0.014,
+                    }}
+                >
+                    <Marker
+                        onPress={ handleNavigateToDetail }
+                        style={ styles.mapMarker}
+                        coordinate={{
+                            latitude: -19.0078964,
+                            longitude: -57.6074291,
+                        }}
+                    >
+                        <View style={ styles.mapMarkerContainer }>
+                            <Image
+                                style={ styles.mapMarkerImage }
+                                source={{ uri: "https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/places/2021/05/14/ex1_gsq3jf" }}
+                            />
+                            <View style={ styles.mapMarkerTitleContainer }>
+                                <Text style={ styles. mapMarkerTitle }>Mercado</Text>
+                            </View>
+
+                            <View style={ styles.mapMarkerArrow }></View>
+
+                        </View>
+
+                    </Marker>
+                </MapView>
             </View>
 
             <View style={ styles.itemsContainer }>

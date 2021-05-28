@@ -52,17 +52,16 @@ export default StyleSheet.create({
 
   mapMarker: {
     width: 90,
-    height: 80,
+    height: 100,
   },
 
   mapMarkerContainer: {
     width: 90,
-    height: 70,
-    backgroundColor: '#34CB79',
+    height: 90,
     flexDirection: 'column',
-    borderRadius: 8,
     overflow: 'hidden',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderRadius: 8,
   },
 
   mapMarkerImage: {
@@ -71,12 +70,28 @@ export default StyleSheet.create({
     resizeMode: 'cover',
   },
 
+  mapMarkerTitleContainer: {
+    backgroundColor: '#34CB79',
+    width: '100%',
+    alignItems: 'center',
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+  },
+
   mapMarkerTitle: {
-    flex: 1,
     fontFamily: 'Roboto_400Regular',
     color: '#FFF',
     fontSize: 13,
     lineHeight: 23,
+  },
+
+  mapMarkerArrow: {
+    padding: 4,
+    transform: [
+      { translateY: -4 },
+      { rotate: "45deg" },
+    ],
+    backgroundColor: '#34CB79',
   },
 
   itemsContainer: {
