@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
     paddingTop: 25,
   },
 
@@ -11,6 +10,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 15,
+    paddingHorizontal: '5%',
   },
 
   headerButton: {
@@ -37,10 +37,12 @@ export default StyleSheet.create({
   mapContainer: {
     // flex: 1,
     height: '70%',
-    width: '100%',
+    width: '90%',
     borderRadius: 10,
     overflow: 'hidden',
     marginTop: 16,
+    marginLeft: '5%',
+    marginRight: '5%',
   },
 
   map: {

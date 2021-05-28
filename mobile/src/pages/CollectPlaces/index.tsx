@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import {
 	View, Text, Image,
-	TouchableOpacity, TextInput, ImageBackground
+	TouchableOpacity,
+    TextInput, ImageBackground,
+    ScrollView
 } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 
@@ -16,6 +18,7 @@ import backgroundImg from '../../assets/home-background.png'
 import { RectButton } from 'react-native-gesture-handler'
 
 import MapView from 'react-native-maps'
+import { SvgUri } from 'react-native-svg'
 
 function CollectPlaces() {
 
@@ -60,9 +63,42 @@ function CollectPlaces() {
             </View>
 
             <View style={ styles.itemsContainer }>
-                <TouchableOpacity style={ styles.item } onPress={ () => {} }>
+                <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={ false }
+                    contentContainerStyle={{ paddingHorizontal: 20 }}
+                    >
+                    <TouchableOpacity style={ styles.item } onPress={ () => {} }>
+                        <SvgUri width={ 42 } height={ 42 } uri="https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/items/2021/05/16/images/baterias_yvyjsx" />
+                        <Text style={ styles.itemTitle }>Lâmpadas</Text>
+                    </TouchableOpacity>
 
-                </TouchableOpacity>
+                    <TouchableOpacity style={ styles.item } onPress={ () => {} }>
+                        <SvgUri width={ 42 } height={ 42 } uri="https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/items/2021/05/16/images/baterias_yvyjsx" />
+                        <Text style={ styles.itemTitle }>Lâmpadas</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={ styles.item } onPress={ () => {} }>
+                        <SvgUri width={ 42 } height={ 42 } uri="https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/items/2021/05/16/images/baterias_yvyjsx" />
+                        <Text style={ styles.itemTitle }>Lâmpadas</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={ styles.item } onPress={ () => {} }>
+                        <SvgUri width={ 42 } height={ 42 } uri="https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/items/2021/05/16/images/baterias_yvyjsx" />
+                        <Text style={ styles.itemTitle }>Lâmpadas</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={ styles.item } onPress={ () => {} }>
+                        <SvgUri width={ 42 } height={ 42 } uri="https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/items/2021/05/16/images/baterias_yvyjsx" />
+                        <Text style={ styles.itemTitle }>Lâmpadas</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={ styles.item } onPress={ () => {} }>
+                        <SvgUri width={ 42 } height={ 42 } uri="https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/items/2021/05/16/images/baterias_yvyjsx" />
+                        <Text style={ styles.itemTitle }>Lâmpadas</Text>
+                    </TouchableOpacity>
+                </ScrollView>
+
             </View>
 
 
