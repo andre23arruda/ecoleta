@@ -78,7 +78,7 @@ python manage.py runserver_ip
 </h1>
 
 ### OBS:
-Usei o *Cloudinary* para salvar as imagens dos Spots. Mas não é necessário.
+Usei o *Cloudinary* para salvar as imagens dos pontos de coleta, mas não é necessário.
 
 ## Frontend
 #### Primeiro: adicionar endereço do backend
