@@ -46,8 +46,7 @@ Ter instalado:
 #### Segundo: no terminal, rodar
 ```sh
 # Entrar na pasta dos arquivos do backend
-cd backend_django
-
+cd backend
 # Criar um ambiente virtual
 python -m venv venv
 
@@ -71,7 +70,7 @@ python get_api_route.py
 #### Por fim: deixar a API rodando
 
 ```sh
-# Já executará com seu endreço IP
+# Já executará backend com seu endreço IP na rede
 python manage.py runserver_ip
 ```
 <h1 align="center">
