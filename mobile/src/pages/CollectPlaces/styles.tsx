@@ -29,6 +29,14 @@ export default StyleSheet.create({
     fontFamily: 'Ubuntu_700Bold',
   },
 
+  noPlacesText: {
+    fontSize: 20,
+    fontFamily: 'Ubuntu_700Bold',
+    paddingHorizontal: '10%',
+    textAlign: 'center',
+    marginTop: '50%'
+  },
+
   headerTitleText: {
     color: '#6C6C80',
     fontFamily: 'Roboto_400Regular',
@@ -61,7 +69,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     overflow: 'hidden',
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: 4,
   },
 
   mapMarkerImage: {
@@ -74,8 +82,8 @@ export default StyleSheet.create({
     backgroundColor: '#34CB79',
     width: '100%',
     alignItems: 'center',
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
   },
 
   mapMarkerTitle: {

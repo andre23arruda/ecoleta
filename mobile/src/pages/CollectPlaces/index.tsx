@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	View, Text, Image,
 	TouchableOpacity,
-    TextInput, ImageBackground,
+    ImageBackground,
     ScrollView
 } from 'react-native'
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation, useRoute } from '@react-navigation/core'
 
 import { Feather } from '@expo/vector-icons'
 
-import { postApi } from '../../services/api'
+import { getApi, postApi } from '../../services/api'
 import { showAlert } from '../../utils'
 
 import styles from './styles'
@@ -20,17 +20,105 @@ import { RectButton } from 'react-native-gesture-handler'
 import MapView, { Marker } from 'react-native-maps'
 import { SvgUri } from 'react-native-svg'
 
+
+interface Item {
+	id: number,
+    image: string,
+    name: string,
+}
+
+interface Place {
+    id: number,
+    item_list: string[],
+    image: string,
+    name: string,
+    email: string,
+    whatsapp: string,
+    latitude: number,
+    longitude: number,
+    city: string,
+    uf: string
+}
+
+interface InitialRegion {
+    latitude: number,
+    longitude: number,
+    latitudeDelta: number,
+    longitudeDelta: number,
+}
+
+
 function CollectPlaces() {
 
     const navigation = useNavigation()
+    const route: any = useRoute()
+
+    const [items, setItems] = useState<Item[]>([])
+    const [selectedItems, setSelectedItems] = useState<string[]>([])
+
+    const [places, setPlaces] = useState<Place[]>([])
+    const [filteredPlaces, setFilteredPlaces] = useState<Place[]>([])
+
+    const [initialRegion, setInitialRegion] = useState<InitialRegion>({
+        latitude: 0,
+        longitude: 0,
+        latitudeDelta: 0,
+        longitudeDelta: 0,
+    })
+    const { uf, city } = route.params
 
     function navigateToHome() {
         navigation.goBack()
     }
 
-    function handleNavigateToDetail() {
-        navigation.navigate('Detail')
+    function handleNavigateToDetail(place: Place) {
+        navigation.navigate('Detail', place)
     }
+
+    async function loadItemsList() {
+        const response = await getApi('items/')
+        setItems(response)
+    }
+
+    async function loadCollectPlacesList() {
+        const response = await getApi(`places/?uf=${ uf }&city=${ city }`)
+		setPlaces(response)
+        setFilteredPlaces(response)
+        if (response.length > 0) {
+            setInitialRegion({
+                latitude: response[0].latitude,
+                longitude: response[0].longitude,
+                latitudeDelta: 0.014,
+                longitudeDelta: 0.014,
+            })
+        }
+	}
+
+    function filterPlacesByItems() {
+        if (selectedItems.length > 0) {
+            setFilteredPlaces(places.filter( place => {
+                return place.item_list.some(selectedItem => selectedItems.indexOf(selectedItem) >= 0)
+            }))
+        } else {
+            setFilteredPlaces(places)
+        }
+    }
+
+    function handleSelectedItems(item: Item) {
+        var index = selectedItems.indexOf(item.name)
+        if (index > -1) {
+            selectedItems.splice(index, 1)
+        } else {
+            selectedItems.push(item.name)
+        }
+        setSelectedItems(selectedItems)
+        filterPlacesByItems()
+    }
+
+    useEffect(() => {
+        loadItemsList()
+        loadCollectPlacesList()
+    }, [])
 
   	return (
         <ImageBackground
@@ -48,94 +136,86 @@ function CollectPlaces() {
                     <Feather name="chevron-left" size={ 28 } color="#34CB79"/>
                 </TouchableOpacity>
 
-                <View style={ styles.headerTitle } >
-                    <Text style={ styles.headerTitleStrong }>
-                        😃 Bem vindo.
-                    </Text>
+                { places.length > 0 &&
+                    <View style={ styles.headerTitle } >
+                        <Text style={ styles.headerTitleStrong }>
+                            😃 Bem vindo.
+                        </Text>
 
-                    <Text style={ styles.headerTitleText }>
-                        Encontre no mapa um ponto de coleta.
-                    </Text>
+                        <Text style={ styles.headerTitleText }>
+                            Encontre no mapa um ponto de coleta.
+                        </Text>
 
+                    </View>
+                }
+            </View>
+
+            { places.length > 0 ?
+                <>
+                <View style={ styles.mapContainer }>
+                    <MapView
+                        style={ styles.map }
+                        initialRegion={ initialRegion }
+                    >
+                        { filteredPlaces.map(place => (
+                            <Marker
+                                key={ place.id }
+                                onPress={ () => handleNavigateToDetail(place) }
+                                style={ styles.mapMarker}
+                                coordinate={{
+                                    latitude: place.latitude,
+                                    longitude: place.longitude,
+                                }}
+                            >
+                                <View style={ styles.mapMarkerContainer }>
+                                    <Image
+                                        style={ styles.mapMarkerImage }
+                                        source={{ uri: place.image }}
+                                    />
+                                    <View style={ styles.mapMarkerTitleContainer }>
+                                        <Text style={ styles. mapMarkerTitle }>{ place.name }</Text>
+                                    </View>
+
+                                    <View style={ styles.mapMarkerArrow }></View>
+
+                                </View>
+                            </Marker>
+                        ))}
+
+                    </MapView>
                 </View>
 
-
-            </View>
-
-            <View style={ styles.mapContainer }>
-                <MapView
-                    style={ styles.map }
-                    initialRegion={{
-                        latitude: -19.0078964,
-                        longitude: -57.6074291,
-                        latitudeDelta: 0.014,
-                        longitudeDelta: 0.014,
-                    }}
-                >
-                    <Marker
-                        onPress={ handleNavigateToDetail }
-                        style={ styles.mapMarker}
-                        coordinate={{
-                            latitude: -19.0078964,
-                            longitude: -57.6074291,
-                        }}
+                <View style={ styles.itemsContainer }>
+                    <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={ false }
+                        contentContainerStyle={{ paddingHorizontal: 20 }}
                     >
-                        <View style={ styles.mapMarkerContainer }>
-                            <Image
-                                style={ styles.mapMarkerImage }
-                                source={{ uri: "https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/places/2021/05/14/ex1_gsq3jf" }}
-                            />
-                            <View style={ styles.mapMarkerTitleContainer }>
-                                <Text style={ styles. mapMarkerTitle }>Mercado</Text>
-                            </View>
+                        { items.map(item => (
+                            <TouchableOpacity
+                                key={ item.id }
+                                style={ selectedItems.indexOf(item.name) > -1 ?
+                                    [styles.item, styles.selectedItem]
+                                 :
+                                    styles.item
+                                }
+                                onPress={ () => handleSelectedItems(item) }
+                            >
+                                <SvgUri width={ 42 } height={ 42 } uri={ item.image } />
+                                <Text style={ styles.itemTitle }>{ item.name }</Text>
+                            </TouchableOpacity>
+                        ))}
 
-                            <View style={ styles.mapMarkerArrow }></View>
+                    </ScrollView>
 
-                        </View>
+                </View>
+                </>
+             :
+                <Text style={ styles.noPlacesText }>
+                    Desculpe. Não encontramos pontos de coleta cadastrados nessa região.
+                </Text>
 
-                    </Marker>
-                </MapView>
-            </View>
-
-            <View style={ styles.itemsContainer }>
-                <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={ false }
-                    contentContainerStyle={{ paddingHorizontal: 20 }}
-                    >
-                    <TouchableOpacity style={ styles.item } onPress={ () => {} }>
-                        <SvgUri width={ 42 } height={ 42 } uri="https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/items/2021/05/16/images/baterias_yvyjsx" />
-                        <Text style={ styles.itemTitle }>Lâmpadas</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={ styles.item } onPress={ () => {} }>
-                        <SvgUri width={ 42 } height={ 42 } uri="https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/items/2021/05/16/images/baterias_yvyjsx" />
-                        <Text style={ styles.itemTitle }>Lâmpadas</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={ styles.item } onPress={ () => {} }>
-                        <SvgUri width={ 42 } height={ 42 } uri="https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/items/2021/05/16/images/baterias_yvyjsx" />
-                        <Text style={ styles.itemTitle }>Lâmpadas</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={ styles.item } onPress={ () => {} }>
-                        <SvgUri width={ 42 } height={ 42 } uri="https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/items/2021/05/16/images/baterias_yvyjsx" />
-                        <Text style={ styles.itemTitle }>Lâmpadas</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={ styles.item } onPress={ () => {} }>
-                        <SvgUri width={ 42 } height={ 42 } uri="https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/items/2021/05/16/images/baterias_yvyjsx" />
-                        <Text style={ styles.itemTitle }>Lâmpadas</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={ styles.item } onPress={ () => {} }>
-                        <SvgUri width={ 42 } height={ 42 } uri="https://res.cloudinary.com/utils-cloudinary/image/upload/v1/nlw1_media/uploads/items/2021/05/16/images/baterias_yvyjsx" />
-                        <Text style={ styles.itemTitle }>Lâmpadas</Text>
-                    </TouchableOpacity>
-                </ScrollView>
-
-            </View>
-
+            }
 
         </ImageBackground>
   	)

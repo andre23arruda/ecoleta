@@ -13,11 +13,12 @@
 </p>
 
 <p align="center">
-  <a href="#rocket-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-projeto">Projeto</a>
+  <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-instalação">Instalação</a>
 </p>
 
-## :rocket: Tecnologias
+## 🚀 Tecnologias
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 
@@ -59,6 +60,9 @@ pip install -r requirements.txt
 # Executar as migrações
 python manage.py migrate
 
+# Criar instâncias dos items de coleta
+python populate.py
+
 # Obter endereço para o seu pc servir os dados da API para os dispostivos da sua rede
 python get_api_route.py
 ```
@@ -70,12 +74,12 @@ python get_api_route.py
 # Já executará com seu endreço IP
 python manage.py runserver_ip
 ```
-
-![API 0](/images/api_0.png?raw=true)
-![API 1](/images/api_1.png?raw=true)
+<h1 align="center">
+    <img alt="API 1" src="./images/api_1.png" width="500px" />
+</h1>
 
 ### OBS:
-Usei o *Cloudinary* para salvar as imagens dos Spots. Mas dá para rodar a aplicação sem ele.
+Usei o *Cloudinary* para salvar as imagens dos Spots. Mas não é necessário.
 
 ## Frontend
 #### Primeiro: adicionar endereço do backend
@@ -92,11 +96,12 @@ yarn install
 # Rodar
 yarn start
 ```
-![Web 1](/images/web_1.png?raw=true)
 
-![Web 2](/images/web_1.png?raw=true)
-
-![Web 3](/images/web_2.png?raw=true)
+<h1 align="center">
+    <img alt="Web 1" src="./images/web_1.png" width="400px" />
+    <img alt="Web 2" src="./images/web_2.png" width="400px" />
+    <img alt="Web 3" src="./images/web_3.png" width="400px" />
+</h1>
 
 ## Mobile
 #### Primeiro: adicionar endereço do backend
@@ -118,4 +123,6 @@ expo start
 - Abrir expo no celular
 - Ler QR code e executar o app
 
-![Mobile 0](/images/mobile_0.png?raw=true)
+<h1 align="center">
+    <img alt="Web 1" src="./images/mobile_1.png" width="800px" />
+</h1>

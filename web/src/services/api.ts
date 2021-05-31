@@ -44,14 +44,7 @@ async function postFormDataApi(route: string, data: any, auth='') {
 
 async function getApi(route: string, auth='', base=true) {
     const url =  base ? baseUrl + route : route
-    return fetch(
-        url,
-        {
-            headers: new Headers({
-                Authorization: auth,
-            })
-        }
-    )
+    return fetch(url)
     .then(response => response.json())
 }
 

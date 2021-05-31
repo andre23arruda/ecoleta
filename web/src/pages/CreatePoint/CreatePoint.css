@@ -42,6 +42,27 @@
   font-size: 36px;
 }
 
+#page-create-point label#image {
+  margin-bottom: 20px;
+  border: 1px dashed #ddd;
+  background-size: cover;
+  cursor: pointer;
+  height: 350px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+
+#page-create-point label#image.has-preview {
+  border: none;
+}
+
+#page-create-point label#image input {
+  display: none;
+}
+
 #page-create-point form fieldset {
   margin-top: 64px;
   min-inline-size: auto;

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { FiArrowLeft, FiCheckCircle } from 'react-icons/fi'
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import { FiArrowLeft, FiCamera, FiCheckCircle } from 'react-icons/fi'
 import { Link, useHistory } from 'react-router-dom'
 
 import { Map , TileLayer, Marker } from 'react-leaflet'
@@ -41,11 +41,12 @@ function CreatePoint() {
     const [whatsapp, setWhatsapp] = useState<string>('')
     const [collectItems, setCollectItems] = useState<CollectItem[]>([])
     const [ufList, setUfList] = useState<Uf[]>([])
-    const [currentUf, setCurrentUf] = useState<string>('')
+    const [currentUf, setCurrentUf] = useState<string>('0')
     const [cityList, setCityList] = useState<City[]>([])
     const [currentCity, setCurrentCity] = useState<string>('')
     const [position, setPosition] = useState<[number, number]>([0, 0])
     const [selectedItems, setselectedItems] = useState<number[]>([])
+    const [image, setImage] = useState<any>(null)
 
     const [popupTrigger, setPopupTrigger] = useState<boolean>(false)
 
@@ -107,10 +108,20 @@ function CreatePoint() {
         }
     }
 
+    function handleSetImage(event: ChangeEvent<HTMLInputElement> ) {
+		if (!event.target.files) return
+		setImage(event.target.files[0])
+	}
+
+    const preview = useMemo( () => {
+        return image ? URL.createObjectURL(image) : null
+    }, [image])
+
+
     async function handleSubmit(event: any){
         event.preventDefault()
         const data = {
-            image: null,
+            image,
             name,
             email,
             whatsapp,
@@ -130,10 +141,6 @@ function CreatePoint() {
         }
     }
 
-
-
-
-
   	return (
 
         <div id="page-create-point">
@@ -143,8 +150,7 @@ function CreatePoint() {
                     <img src={ logoImg } alt="Ecoleta"/>
 
                     <Link to='/'>
-                        <FiArrowLeft />
-                        Voltar
+                        <FiArrowLeft /> Voltar
                     </Link>
                 </header>
 
@@ -157,6 +163,14 @@ function CreatePoint() {
                         <legend>
                             <h2>Dados</h2>
                         </legend>
+
+                        <div className="field">
+                            <label htmlFor="name">Adicione uma imagem do local</label>
+                            <label id="image" className={ preview ? 'has-preview' : '' } style={{ backgroundImage: `url(${ preview })`}}>
+                                <input type="file" onChange={ e => handleSetImage(e) }/>
+                                { preview ? '' : <FiCamera color={ "#999" } fontSize={ 35 }/> }
+                            </label>
+                        </div>
 
                         <div className="field">
                             <label htmlFor="name">Nome da entidade</label>
@@ -199,7 +213,7 @@ function CreatePoint() {
                             <div className="field">
                                 <label htmlFor="uf">Estado (UF)</label>
                                 <select value={ currentUf } name="uf" id="uf" onChange={ event => handleUfChange(event.target.value) }>
-                                    <option value='0'>-----------</option>
+                                    <option value='0'>Selecione um estado</option>
                                     { ufList.map(uf => (
                                         <option key={ uf.id } value={ uf.sigla }>{ uf.sigla }</option>
                                     ))}
@@ -256,13 +270,9 @@ function CreatePoint() {
             >
                 <div className="popup">
                     <div className="popup-inner">
-
                         <FiCheckCircle fontSize={ 38 } color="#34CB79"/>
 
-                        <h1>
-                            Cadastro realizado com sucesso
-                        </h1>
-
+                        <h1>Cadastro realizado com sucesso</h1>
                     </div>
                 </div>
             </CSSTransition>

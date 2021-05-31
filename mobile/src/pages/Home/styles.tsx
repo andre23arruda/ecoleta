@@ -28,9 +28,22 @@ export default StyleSheet.create({
     lineHeight: 24,
   },
 
+  buttonLabel: {
+    color: '#6C6C80',
+    fontSize: 14,
+    marginTop: 0,
+    fontFamily: 'Roboto_400Regular',
+  },
+
   footer: {},
 
-  select: {},
+  select: {
+    paddingRight: 5,
+  },
+
+  picker: {
+    flex: 1
+  },
 
   input: {
     height: 60,

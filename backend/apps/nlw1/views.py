@@ -52,11 +52,15 @@ class CollectPlacesViewSet(viewsets.ModelViewSet):
     def create(self, serializer):
         '''Creat Collect Place'''
         place_data = serializer.data
-
         place_data_dict = place_data.dict()
+
         place_data_dict.pop('image', None)
-        items_text = place_data_dict.pop('items', None)
-        items = get_items(items_text)
+        csrf = place_data_dict.pop('csrfmiddlewaretoken', None)
+
+        if not csrf:
+            items_text = place_data_dict.pop('items', None)
+            items = get_items(items_text)
+
         image =  None if place_data['image'] == 'null' else place_data['image']
         print(image)
         place = CollectPlace.objects.create(
