@@ -47,6 +47,7 @@ Ter instalado:
 ```sh
 # Entrar na pasta dos arquivos do backend
 cd backend
+
 # Criar um ambiente virtual
 python -m venv venv
 
@@ -80,7 +81,7 @@ python manage.py runserver_ip
 ### OBS:
 Usei o *Cloudinary* para salvar as imagens dos pontos de coleta, mas não é necessário.
 
-## Frontend
+### Frontend
 #### Primeiro: adicionar endereço do backend
 - Abrir *web/src/services/api.js* e adicionar o endereço da sua API (ROTA_API)
 
@@ -102,7 +103,7 @@ yarn start
     <img alt="Web 3" src="./images/web_3.png" width="400px" />
 </h1>
 
-## Mobile
+### Mobile
 #### Primeiro: adicionar endereço do backend
 - Abrir *mobile/src/services/api.js* e adicionar o endereço da sua API (ROTA_API)
 
