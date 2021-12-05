@@ -3,13 +3,13 @@ from rest_framework import serializers
 
 from .models import CollectItem, CollectPlace
 
+
 class CollectItemSerializer(serializers.ModelSerializer):
     '''Collect Item Serializer'''
 
     class Meta:
         model = CollectItem
         fields = '__all__'
-
 
 
 class CollectPlaceSerializer(serializers.ModelSerializer):
