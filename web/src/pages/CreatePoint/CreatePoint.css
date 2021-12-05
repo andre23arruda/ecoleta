@@ -238,16 +238,7 @@
   }
 }
 
-
-
-
-
-
-
-
-
-
-
+/* Mensagem de cadastro realizado */
 .popup {
   position: fixed;
   top: 0;
@@ -274,7 +265,6 @@
   color: white;
 }
 
-/* Mensagem de cadastro realizado */
 .alert-enter {
   opacity: 0;
   transform: scale(0.9);

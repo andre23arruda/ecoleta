@@ -37,7 +37,6 @@ function Detail() {
 
 	function sendMessage() {
 		Linking.openURL(`whatsapp://send?phone=55${ whatsapp }&text=${ message }`)
-
 	}
 
   	return (

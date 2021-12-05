@@ -40,8 +40,8 @@ Ter instalado:
 - [Yarn](https://classic.yarnpkg.com/en/docs/install/)
 
 ### Backend
-#### Primeiro: renomear arquivo com variáveis de ambiente
--  **Renomear _backend/setup/env_example.py_ para _backend/setup/env.py_**
+#### Primeiro: modificar variáveis de ambiente (se houver)
+-  **_backend/setup/env_example.py_**
 
 #### Segundo: no terminal, rodar
 ```sh
@@ -63,17 +63,10 @@ python manage.py migrate
 # Criar instâncias dos items de coleta
 python populate.py
 
-# Obter endereço para o seu pc servir os dados da API para os dispostivos da sua rede
-python get_api_route.py
+# Rodar backend
+. run.sh
 ```
-**O endereço será exibido em tela. Guarde-o. Será necessário colocá-lo no frontend como ROTA_API**
 
-#### Por fim: deixar a API rodando
-
-```sh
-# Já executará backend com seu endreço IP na rede
-python manage.py runserver_ip
-```
 <h1 align="center">
     <img alt="API 1" src="./images/api_1.png" width="500px" />
 </h1>
@@ -82,12 +75,9 @@ python manage.py runserver_ip
 Usei o *Cloudinary* para salvar as imagens dos pontos de coleta, mas não é necessário.
 
 ### Frontend
-#### Primeiro: adicionar endereço do backend
-- Abrir *web/src/services/api.js* e adicionar o endereço da sua API (ROTA_API)
-
-#### Segundo: no terminal, rodar
+#### No terminal, rodar
 ```sh
-# Entrar na pasta dos arquivos do frontend
+# Entrar na pasta dos arquivos do projeto frontend
 cd web
 
 # Instalar os pacotes do projeto
@@ -104,12 +94,9 @@ yarn start
 </h1>
 
 ### Mobile
-#### Primeiro: adicionar endereço do backend
-- Abrir *mobile/src/services/api.js* e adicionar o endereço da sua API (ROTA_API)
-
-#### Segundo: no terminal, rodar
+#### No terminal, rodar
 ```sh
-# Entrar na pasta dos arquivos do frontend
+# Entrar na pasta dos arquivos do projeto mobile
 cd mobile
 
 # Instalar os pacotes do projeto
