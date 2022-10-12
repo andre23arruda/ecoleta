@@ -1,8 +1,8 @@
-const ROTA_API = `192.168.0.22`
+const API_ROUTE = process.env.REACT_APP_API_URL
+const baseUrl = `${ API_ROUTE }/api/nlw1/`
 
-const baseUrl = `http://${ ROTA_API }:8000/api/nlw1/`
 
-async function postApi(route: string, formData: FormData, auth='') {
+export async function postApi(route: string, formData: FormData, auth='') {
     return fetch(
         baseUrl + route,
         {
@@ -19,8 +19,8 @@ async function postApi(route: string, formData: FormData, auth='') {
     .then(response => response.json())
 }
 
-async function postFormDataApi(route: string, data: any, auth='') {
 
+export async function postFormDataApi(route: string, data: any, auth='') {
     const formData = new FormData()
     for (var prop in data) {
         formData.append(prop, data[prop])
@@ -41,14 +41,14 @@ async function postFormDataApi(route: string, data: any, auth='') {
 }
 
 
-async function getApi(route: string, auth='', base=true) {
+export async function getApi(route: string, auth='', base=true) {
     const url =  base ? baseUrl + route : route
     return fetch(url)
     .then(response => response.json())
 }
 
 
-async function deleteApi(route: string, auth='') {
+export async function deleteApi(route: string, auth='') {
     return fetch(
         baseUrl + route,
         {
@@ -63,7 +63,7 @@ async function deleteApi(route: string, auth='') {
 }
 
 
-async function putApi(route: string, formData: FormData, auth='') {
+export async function putApi(route: string, formData: FormData, auth='') {
     return fetch(
         baseUrl + route,
         {
@@ -79,5 +79,3 @@ async function putApi(route: string, formData: FormData, auth='') {
     )
     .then(response => response.json())
 }
-
-export { getApi, postApi, postFormDataApi, deleteApi, putApi }

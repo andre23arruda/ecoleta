@@ -101,6 +101,7 @@
 }
 
 #page-create-point form .field input[type=text],
+#page-create-point form .field input[type=tel],
 #page-create-point form .field input[type=email],
 #page-create-point form .field input[type=number] {
   flex: 1;

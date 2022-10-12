@@ -138,10 +138,12 @@ function CreatePoint() {
             setTimeout(() => {
                 history.push('/')
             }, 2000)
+        } else {
+            alert('ERRO ao cadastrar! Verifique as informações.')
         }
     }
 
-  	return (
+    return (
 
         <div id="page-create-point">
 
@@ -166,26 +168,48 @@ function CreatePoint() {
 
                         <div className="field">
                             <label htmlFor="name">Adicione uma imagem do local</label>
-                            <label id="image" className={ preview ? 'has-preview' : '' } style={{ backgroundImage: `url(${ preview })`}}>
-                                <input type="file" onChange={ e => handleSetImage(e) }/>
+                            <label
+                                id="image"
+                                className={ preview ? 'has-preview' : '' }
+                                style={{ backgroundImage: `url(${ preview })`}}
+                            >
+                                <input type="file" onChange={ e => handleSetImage(e) } />
                                 { preview ? '' : <FiCamera color={ "#999" } fontSize={ 35 }/> }
                             </label>
                         </div>
 
                         <div className="field">
                             <label htmlFor="name">Nome da entidade</label>
-                            <input type="text" name="name" id="name" onChange={ event => handleName(event.target.value) }/>
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                required
+                                onChange={ event => handleName(event.target.value) }
+                            />
                         </div>
 
                         <div className="field-group">
                             <div className="field">
                                 <label htmlFor="email">Email</label>
-                                <input type="email" name="email" id="email" onChange={ event => handleEmail(event.target.value) }/>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    required
+                                    onChange={ event => handleEmail(event.target.value) }
+                                />
                             </div>
 
                             <div className="field">
-                                <label htmlFor="name">Whatsapp</label>
-                                <input type="text" name="whatsapp" id="whatsapp" onChange={ event => handleWhatsapp(event.target.value) }/>
+                                <label htmlFor="name">Whatsapp (somente números)</label>
+                                <input
+                                    type="tel"
+                                    name="whatsapp"
+                                    id="whatsapp"
+                                    required
+                                    onChange={ event => handleWhatsapp(event.target.value) }
+                                />
                             </div>
                         </div>
                     </fieldset>
@@ -197,7 +221,7 @@ function CreatePoint() {
                         </legend>
 
                         <Map center={ position }
-                            style={ {width: '100%', height: 400} }
+                            style={{width: '100%', height: 400}}
                             zoom={ 16 }
                             onclick={ handleMapClick }
                         >
@@ -212,7 +236,13 @@ function CreatePoint() {
                         <div className="field-group">
                             <div className="field">
                                 <label htmlFor="uf">Estado (UF)</label>
-                                <select value={ currentUf } name="uf" id="uf" onChange={ event => handleUfChange(event.target.value) }>
+                                <select
+                                    value={ currentUf }
+                                    name="uf"
+                                    id="uf"
+                                    required
+                                    onChange={ event => handleUfChange(event.target.value) }
+                                >
                                     <option value='0'>Selecione um estado</option>
                                     { ufList.map(uf => (
                                         <option key={ uf.id } value={ uf.sigla }>{ uf.sigla }</option>
@@ -222,7 +252,13 @@ function CreatePoint() {
 
                             <div className="field">
                                 <label htmlFor="city">Cidade</label>
-                                <select value={ currentCity } name="city" id="city" onChange={ event => handleCityChange(event.target.value) }>
+                                <select
+                                    value={ currentCity }
+                                    name="city"
+                                    id="city"
+                                    required
+                                    onChange={ event => handleCityChange(event.target.value) }
+                                >
                                     { currentUf !== '' &&  cityList.map(city => (
                                         <option key={ city.id } value={ city.nome }>{ city.nome }</option>
                                     ))}
@@ -250,11 +286,9 @@ function CreatePoint() {
                                 </li>
                             )) }
                         </ul>
-
                     </fieldset>
 
                     <button>Cadastrar ponto de coleta</button>
-
                 </form>
 
             </div>
@@ -276,9 +310,8 @@ function CreatePoint() {
                     </div>
                 </div>
             </CSSTransition>
-
         </div>
-  	)
+    )
 }
 
 export default CreatePoint
